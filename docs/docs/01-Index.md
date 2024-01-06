@@ -9,7 +9,5 @@ Storage utilities for Python 🐍
 
 ## 💡 About
 
-Treat this as the landing page for people
-that want to **use** your package.
-
-Write here whatever you want to tell them.
+This package provides implementations of various asynchronous stores
+to simplify implementing storing and retrieving data in async code.
