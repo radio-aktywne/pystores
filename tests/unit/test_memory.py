@@ -20,11 +20,11 @@ class MemoryStoreLifespan(StoreLifespan[T]):
 
 
 class MemoryStoreLifespanBuilder(StoreLifespanBuilder[T]):
-    def __init__(self, value: T) -> None:
-        self._value = value
+    def __init__(self, default: T) -> None:
+        self._default = default
 
     async def build(self) -> MemoryStoreLifespan[T]:
-        return MemoryStoreLifespan(MemoryStore(self._value))
+        return MemoryStoreLifespan(MemoryStore(self._default))
 
 
 class TestMemoryStore(BaseStoreTest[int]):
