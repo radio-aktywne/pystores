@@ -1,14 +1,10 @@
-from typing import TypeVar
-
 import pytest
 
 from pystores.memory import MemoryStore
 from tests.utils.unit import BaseStoreTest, StoreLifespan, StoreLifespanBuilder
 
-T = TypeVar("T")
 
-
-class MemoryStoreLifespan(StoreLifespan[T]):
+class MemoryStoreLifespan[T](StoreLifespan[T]):
     def __init__(self, store: MemoryStore[T]) -> None:
         self._store = store
 
@@ -19,7 +15,7 @@ class MemoryStoreLifespan(StoreLifespan[T]):
         return None
 
 
-class MemoryStoreLifespanBuilder(StoreLifespanBuilder[T]):
+class MemoryStoreLifespanBuilder[T](StoreLifespanBuilder[T]):
     def __init__(self, default: T) -> None:
         self._default = default
 

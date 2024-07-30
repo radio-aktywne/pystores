@@ -1,10 +1,7 @@
 from abc import ABC, abstractmethod
-from typing import Generic, TypeVar
-
-T = TypeVar("T")
 
 
-class Store(Generic[T], ABC):
+class Store[T](ABC):
     """Base class for stores."""
 
     @abstractmethod

@@ -1,17 +1,14 @@
 from collections.abc import Generator
 from tempfile import TemporaryFile
-from typing import IO, Generic, TypeVar
+from typing import IO
 
 import pytest
 
 from pystores.file import FileStore, Serializer
 from tests.utils.unit import BaseStoreTest, StoreLifespan, StoreLifespanBuilder
 
-T = TypeVar("T")
-R = TypeVar("R")
 
-
-class FileStoreLifespan(StoreLifespan[T], Generic[T, R]):
+class FileStoreLifespan[T, R](StoreLifespan[T]):
     def __init__(self, store: FileStore[T, R]) -> None:
         self._store = store
 
@@ -22,7 +19,7 @@ class FileStoreLifespan(StoreLifespan[T], Generic[T, R]):
         return None
 
 
-class FileStoreLifespanBuilder(StoreLifespanBuilder[T], Generic[T, R]):
+class FileStoreLifespanBuilder[T, R](StoreLifespanBuilder[T]):
     def __init__(self, file: IO[R], serializer: Serializer[T, R], default: T) -> None:
         self._file = file
         self._serializer = serializer
@@ -48,7 +45,7 @@ class TestFileStore(BaseStoreTest[int]):
     @pytest.fixture()
     def builder(
         self, serializer: IntSerializer
-    ) -> Generator[FileStoreLifespanBuilder[int, str], None, None]:
+    ) -> Generator[FileStoreLifespanBuilder[int, str]]:
         with TemporaryFile(mode="w+t") as file:
             yield FileStoreLifespanBuilder(file, serializer, 0)
 
