@@ -1,11 +1,8 @@
 from abc import abstractmethod
 from os import SEEK_END
-from typing import IO, Generic, Protocol, TypeVar
+from typing import IO, Protocol
 
 from pystores.base import Store
-
-T = TypeVar("T")
-R = TypeVar("R")
 
 
 class FileNotReadableError(ValueError):
@@ -29,7 +26,7 @@ class FileNotSeekableError(ValueError):
         super().__init__("File is not seekable.")
 
 
-class Serializer(Protocol[T, R]):
+class Serializer[T, R](Protocol):
     """Serializer that serializes and deserializes the value."""
 
     @abstractmethod
@@ -41,7 +38,7 @@ class Serializer(Protocol[T, R]):
         pass
 
 
-class FileStore(Store[T], Generic[T, R]):
+class FileStore[T, R](Store[T]):
     """Store that stores the value in a file."""
 
     def __init__(self, file: IO[R], serializer: Serializer[T, R], default: T) -> None:

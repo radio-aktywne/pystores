@@ -1,14 +1,11 @@
 from abc import ABC, abstractmethod
-from typing import Generic, TypeVar
 
 import pytest
 
 from pystores.base import Store
 
-T = TypeVar("T")
 
-
-class StoreLifespan(Generic[T], ABC):
+class StoreLifespan[T](ABC):
     """Base class for managing the lifespan of a store."""
 
     async def __aenter__(self) -> Store[T]:
@@ -30,7 +27,7 @@ class StoreLifespan(Generic[T], ABC):
         pass
 
 
-class StoreLifespanBuilder(Generic[T], ABC):
+class StoreLifespanBuilder[T](ABC):
     """Base class for building a store lifespan."""
 
     @abstractmethod
@@ -40,7 +37,7 @@ class StoreLifespanBuilder(Generic[T], ABC):
         pass
 
 
-class BaseStoreTest(Generic[T], ABC):
+class BaseStoreTest[T](ABC):
     """Base class for testing a store."""
 
     @pytest.fixture()
@@ -68,7 +65,7 @@ class BaseStoreTest(Generic[T], ABC):
     async def test_initial_get(self, builder: StoreLifespanBuilder[T]) -> None:
         """Test getting a value from a store without explicitly setting anything beforehand."""
 
-        async with (await builder.build()) as store:
+        async with await builder.build() as store:
             await store.get()
 
     @pytest.mark.asyncio(scope="session")
@@ -77,7 +74,7 @@ class BaseStoreTest(Generic[T], ABC):
     ) -> None:
         """Test setting and getting a value."""
 
-        async with (await builder.build()) as store:
+        async with await builder.build() as store:
             await store.set(value)
             assert await store.get() == value
             await store.set(other_value)

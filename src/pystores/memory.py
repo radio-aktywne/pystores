@@ -1,11 +1,7 @@
-from typing import TypeVar
-
 from pystores.base import Store
 
-T = TypeVar("T")
 
-
-class MemoryStore(Store[T]):
+class MemoryStore[T](Store[T]):
     """Store that stores the value in memory."""
 
     def __init__(self, default: T) -> None:
