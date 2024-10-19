@@ -2,10 +2,10 @@ import type * as Preset from "@docusaurus/preset-classic";
 import type { Config } from "@docusaurus/types";
 import { themes } from "prism-react-renderer";
 
-const url = new URL("https://radio-aktywne.github.io/package-pystores");
+const url = new URL("https://radio-aktywne.github.io/pystores");
 
 const config: Config = {
-  title: "pystores package docs",
+  title: "pystores docs",
   favicon: "favicon.svg?v=1",
 
   url: `${url.protocol}//${url.host}`,
@@ -41,14 +41,14 @@ const config: Config = {
 
   themeConfig: {
     navbar: {
-      title: "pystores package docs",
+      title: "pystores docs",
       logo: {
-        alt: "pystores package docs logo",
+        alt: "pystores docs logo",
         src: "logo.svg?v=1",
       },
       items: [
         {
-          href: "https://github.com/radio-aktywne/package-pystores",
+          href: "https://github.com/radio-aktywne/pystores",
           position: "right",
           className: "header-github-link",
           "aria-label": "GitHub repository",

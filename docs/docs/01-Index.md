@@ -3,7 +3,7 @@ slug: /
 title: Index
 ---
 
-# pystores package
+# pystores
 
 Storage utilities for Python 🐍
 
