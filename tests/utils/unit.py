@@ -40,35 +40,35 @@ class StoreLifespanBuilder[T](ABC):
 class BaseStoreTest[T](ABC):
     """Base class for testing a store."""
 
-    @pytest.fixture()
+    @pytest.fixture
     @abstractmethod
     def builder(self) -> StoreLifespanBuilder[T]:
         """Return a builder for a store lifespan."""
 
         pass
 
-    @pytest.fixture()
+    @pytest.fixture
     @abstractmethod
     def value(self) -> T:
         """Return some test value."""
 
         pass
 
-    @pytest.fixture()
+    @pytest.fixture
     @abstractmethod
     def other_value(self) -> T:
         """Return some other test value."""
 
         pass
 
-    @pytest.mark.asyncio(scope="session")
+    @pytest.mark.asyncio(loop_scope="session")
     async def test_initial_get(self, builder: StoreLifespanBuilder[T]) -> None:
         """Test getting a value from a store without explicitly setting anything beforehand."""
 
         async with await builder.build() as store:
             await store.get()
 
-    @pytest.mark.asyncio(scope="session")
+    @pytest.mark.asyncio(loop_scope="session")
     async def test_set_get(
         self, builder: StoreLifespanBuilder[T], value: T, other_value: T
     ) -> None:
