@@ -24,14 +24,14 @@ class MemoryStoreLifespanBuilder[T](StoreLifespanBuilder[T]):
 
 
 class TestMemoryStore(BaseStoreTest[int]):
-    @pytest.fixture()
+    @pytest.fixture
     def builder(self) -> MemoryStoreLifespanBuilder[int]:
         return MemoryStoreLifespanBuilder(0)
 
-    @pytest.fixture()
+    @pytest.fixture
     def value(self) -> int:
         return 1
 
-    @pytest.fixture()
+    @pytest.fixture
     def other_value(self) -> int:
         return 2

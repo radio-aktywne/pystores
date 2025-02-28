@@ -38,21 +38,21 @@ class IntSerializer(Serializer[int, str]):
 
 
 class TestFileStore(BaseStoreTest[int]):
-    @pytest.fixture()
+    @pytest.fixture
     def serializer(self) -> IntSerializer:
         return IntSerializer()
 
-    @pytest.fixture()
+    @pytest.fixture
     def builder(
         self, serializer: IntSerializer
     ) -> Generator[FileStoreLifespanBuilder[int, str]]:
         with TemporaryFile(mode="w+t") as file:
             yield FileStoreLifespanBuilder(file, serializer, 0)
 
-    @pytest.fixture()
+    @pytest.fixture
     def value(self) -> int:
         return 1
 
-    @pytest.fixture()
+    @pytest.fixture
     def other_value(self) -> int:
         return 2
