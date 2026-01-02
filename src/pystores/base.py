@@ -8,10 +8,6 @@ class Store[T](ABC):
     async def get(self) -> T:
         """Return the stored value."""
 
-        pass
-
     @abstractmethod
     async def set(self, value: T) -> None:
         """Set the stored value."""
-
-        pass

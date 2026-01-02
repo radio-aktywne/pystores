@@ -2,7 +2,7 @@
 
 <div align="center">
 
-Storage utilities for Python 🐍
+Storage utilities package for Python 🐍
 
 [![Lint](https://github.com/radio-aktywne/pystores/actions/workflows/lint.yaml/badge.svg)](https://github.com/radio-aktywne/pystores/actions/workflows/lint.yaml)
 [![Test](https://github.com/radio-aktywne/pystores/actions/workflows/test.yaml/badge.svg)](https://github.com/radio-aktywne/pystores/actions/workflows/test.yaml)
@@ -14,7 +14,8 @@ Storage utilities for Python 🐍
 
 ## 💡 About
 
-This package provides implementations of various asynchronous stores
+`pystores` is a [`Python`](https://www.python.org) package
+that provides implementations of various asynchronous stores
 to simplify implementing storing and retrieving data in async code.
 
 ## 📄 Further Reading

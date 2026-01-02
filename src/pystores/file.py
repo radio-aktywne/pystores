@@ -1,6 +1,6 @@
 from abc import abstractmethod
 from os import SEEK_END
-from typing import IO, Protocol
+from typing import IO, Protocol, override
 
 from pystores.base import Store
 
@@ -26,30 +26,30 @@ class FileNotSeekableError(ValueError):
         super().__init__("File is not seekable.")
 
 
-class Serializer[T, R](Protocol):
+class Serializer[T, R: (str, bytes)](Protocol):
     """Serializer that serializes and deserializes the value."""
 
     @abstractmethod
     async def serialize(self, value: T) -> R:
-        pass
+        """Serialize the value."""
 
     @abstractmethod
     async def deserialize(self, value: R) -> T:
-        pass
+        """Deserialize the value."""
 
 
-class FileStore[T, R](Store[T]):
+class FileStore[T, R: (str, bytes)](Store[T]):
     """Store that stores the value in a file."""
 
     def __init__(self, file: IO[R], serializer: Serializer[T, R], default: T) -> None:
         if not file.readable():
-            raise FileNotReadableError()
+            raise FileNotReadableError
 
         if not file.writable():
-            raise FileNotWritableError()
+            raise FileNotWritableError
 
         if not file.seekable():
-            raise FileNotSeekableError()
+            raise FileNotSeekableError
 
         self._file = file
         self._serializer = serializer
@@ -62,6 +62,7 @@ class FileStore[T, R](Store[T]):
         self._file.seek(position)
         return size
 
+    @override
     async def get(self) -> T:
         if self._get_size() == 0:
             await self.set(self._default)
@@ -70,6 +71,7 @@ class FileStore[T, R](Store[T]):
         content = self._file.read()
         return await self._serializer.deserialize(content)
 
+    @override
     async def set(self, value: T) -> None:
         content = await self._serializer.serialize(value)
         self._file.seek(0)
