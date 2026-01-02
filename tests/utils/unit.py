@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from types import TracebackType
 
 import pytest
 
@@ -11,20 +12,21 @@ class StoreLifespan[T](ABC):
     async def __aenter__(self) -> Store[T]:
         return await self.enter()
 
-    async def __aexit__(self, *args, **kwargs) -> None:
-        await self.exit()
+    async def __aexit__(
+        self,
+        exception_type: type[BaseException] | None,
+        exception: BaseException | None,
+        traceback: TracebackType | None,
+    ) -> None:
+        return await self.exit()
 
     @abstractmethod
     async def enter(self) -> Store[T]:
         """Enter the lifespan of the store."""
 
-        pass
-
     @abstractmethod
     async def exit(self) -> None:
         """Exit the lifespan of the store."""
-
-        pass
 
 
 class StoreLifespanBuilder[T](ABC):
@@ -33,8 +35,6 @@ class StoreLifespanBuilder[T](ABC):
     @abstractmethod
     async def build(self) -> StoreLifespan[T]:
         """Build a store lifespan."""
-
-        pass
 
 
 class BaseStoreTest[T](ABC):
@@ -45,26 +45,19 @@ class BaseStoreTest[T](ABC):
     def builder(self) -> StoreLifespanBuilder[T]:
         """Return a builder for a store lifespan."""
 
-        pass
-
     @pytest.fixture
     @abstractmethod
     def value(self) -> T:
         """Return some test value."""
-
-        pass
 
     @pytest.fixture
     @abstractmethod
     def other_value(self) -> T:
         """Return some other test value."""
 
-        pass
-
     @pytest.mark.asyncio(loop_scope="session")
     async def test_initial_get(self, builder: StoreLifespanBuilder[T]) -> None:
         """Test getting a value from a store without explicitly setting anything beforehand."""
-
         async with await builder.build() as store:
             await store.get()
 
@@ -73,7 +66,6 @@ class BaseStoreTest[T](ABC):
         self, builder: StoreLifespanBuilder[T], value: T, other_value: T
     ) -> None:
         """Test setting and getting a value."""
-
         async with await builder.build() as store:
             await store.set(value)
             assert await store.get() == value
