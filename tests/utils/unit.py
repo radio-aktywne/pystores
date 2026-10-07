@@ -57,7 +57,7 @@ class BaseStoreTest[T](ABC):
 
     @pytest.mark.asyncio(loop_scope="session")
     async def test_initial_get(self, builder: StoreLifespanBuilder[T]) -> None:
-        """Test getting a value from a store without explicitly setting anything beforehand."""
+        """Test getting a value from a store without setting anything beforehand."""
         async with await builder.build() as store:
             await store.get()
 
